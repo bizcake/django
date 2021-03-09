@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    {% load static %}
+
+    <title>{% block title %}테스트 {% endblock title %}</title>
+
+    {% block meta %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.80.0">
+    {% endblock meta %}
+
+    {% block css %}
+    <!-- 부트스트랩 css 사용 -->
+    <link rel="stylesheet" href="{% static '/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static '/css/custom.css' %}">
+    {% endblock css %}
+
+    {% block scripts %}
+    <!--  부트스트랩 js 사용 -->
+    <script src="{% static '/js/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static '/js/bootstrap.js' %}"></script>
+    {% endblock scripts %}
+</head>
+<body>
+    <div class="container">
+        {% include 'header.html'%}
+        {% include 'navbar.html'%}
+        {% block content %}
+        {% endblock content %}
+    </div>
+        {% include 'footer.html'%}
+</body>
+</html>
