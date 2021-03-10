@@ -3,8 +3,6 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 
 
-# Create your views here.
-
 # index
 def index(request):
     return render(request, 'index.html')
