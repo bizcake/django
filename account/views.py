@@ -3,17 +3,6 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 
 
-# index
-def index(request):
-
-    if request.user.is_authenticated:
-        pass
-    else:
-        return redirect('account:login')
-
-    return render(request, 'index.html')
-
-
 # 회원 가입
 def signup(request):
     # signup 으로 POST 요청이 왔을 때, 새로운 유저를 만드는 절차를 밟는다.
