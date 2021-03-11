@@ -11,6 +11,8 @@
         <link href="{% static '/css/styles.css' %}" rel="stylesheet" />
         <link href="{% static '/css/dataTables.bootstrap4.min.css'%}" rel="stylesheet" crossorigin="anonymous" />
         <script src="{% static '/js/font-awesome-5.15.1.all.min.js'%}" crossorigin="anonymous"></script>
+        <!-- A link to a Boostrap  and jqGrid Bootstrap CSS siles-->
+        <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/ui.jqgrid-bootstrap.css' %}" />
     </head>
     <body class="sb-nav-fixed">
         {% include 'header.html'%}
@@ -33,6 +35,15 @@
         <script src="{% static '/js/dataTables.bootstrap4.min.js'%}" crossorigin="anonymous"></script>
         <script src="{% static '/assets/demo/datatables-demo.js'%}"></script>
 
+        <!-- We support more than 40 localizations -->
+        <script type="text/ecmascript" src="{% static '/i18n/jqgrid/grid.locale-en.js' %}"></script>
+        <!-- This is the Javascript file of jqGrid -->
+        <script type="text/ecmascript" src="{% static '/js/jquery.jqGrid.min.js' %}"></script>
+        <script>
+            $.jgrid.defaults.width = 780;
+            $.jgrid.defaults.responsive = true;
+            $.jgrid.defaults.styleUI = 'Bootstrap';
+        </script>
         {% block script %}
         {% endblock script %}
     </body>
