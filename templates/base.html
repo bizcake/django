@@ -32,5 +32,8 @@
         <script src="{% static '/js/jquery.dataTables.min.js' %}" crossorigin="anonymous"></script>
         <script src="{% static '/js/dataTables.bootstrap4.min.js'%}" crossorigin="anonymous"></script>
         <script src="{% static '/assets/demo/datatables-demo.js'%}"></script>
+
+        {% block script %}
+        {% endblock script %}
     </body>
 </html>
