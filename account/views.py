@@ -3,10 +3,14 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 
 
-# Create your views here.
-
 # index
 def index(request):
+
+    if request.user.is_authenticated:
+        pass
+    else:
+        return redirect('account:login')
+
     return render(request, 'index.html')
 
 
