@@ -5,84 +5,72 @@
 <div class="container-fluid">
     <h1 class="mt-4">My Tables</h1>
     <div class="card mb-4">
+        <table id="jqGrid" width="100%" cellspacing="0"></table>
+        <div id="jqGridPager"></div>
         <div class="card-body">
             <div class="table-responsive">
-                <table id="jqGrid" width="100%" cellspacing="0">
-                </table>
-    <div id="jqGridPager"></div>
             </div>
         </div>
     </div>
 </div>
-
+<div id="jqGridTemplate" style='margin-left:15px; display:none;'>
+</div>
 {% endblock content %}
 
 {% block script %}
 <script>
+function makeColeRule(arr){
+    var template = '';
+    
+    for(var i=0; i<arr.length; i++){
+        template += "<div> label: </div> <div>{name} </div>".replace('label', arr[i]['label']).replace('name', arr[i]['name']);
+    }
+    $('#jqGridTemplate').html(template)
+    return arr;
+}
 $(document).ready(function () {
-    var template = "<div style='margin-left:15px;'><div> Customer ID <sup>*</sup>:</div><div> {CustomerID} </div>";
-    template += "<div> Company Name: </div><div>{CompanyName} </div>";
-    template += "<div> Phone: </div><div>{Phone} </div>";
-    template += "<div> Postal Code: </div><div>{PostalCode} </div>";
-    template += "<div> City:</div><div> {City} </div>";
-    template += "<hr style='width:100%;'/>";
-    template += "<div> {sData} {cData}  </div></div>";
+    var jqCols = [
+        { label: 'id', name: 'id', key: true, editable: false, editrules : { required: true} },
+        { label: '제목', name: 'title', editable: true },
+        { label: '내용', name: 'content', editable: true },
+        { label: 'CNT', name: 'cnt', editable: true, template: 'number' },
+        { label: '작성일', name: 'created_at', editable: true, formatter:'date', formatoptions:{newformat:'Y-m-d'} },
+        { label: '사용여부', name: 'use_yn', editable: true, formatter:'select', editoptions:{value:{'Y':'Y','N':'N'}, defaultValue:'Y'} }
+    ]
     $("#jqGrid").jqGrid({
-        url: '{% static '/sample2.json' %}',
+        url: "{% url 'board:list' %}",
         // we set the changes to be made at client side using predefined word clientArray
-        editurl: 'clientArray',
+        editurl: "{% url 'board:list' %}",
         datatype: "json",
-        colModel: [
-            {
-                label: 'Customer ID',
-                name: 'CustomerID',
-                width: 75,
-                key: true,
-                editable: true,
-                editrules : { required: true}
-            },
-            {
-                label: 'Company Name',
-                name: 'CompanyName',
-                width: 140,
-                editable: true // must set editable to true if you want to make the field editable
-            },
-            {
-                label : 'Phone',
-                name: 'Phone',
-                width: 100,
-                editable: true
-            },
-            {
-                label: 'Postal Code',
-                name: 'PostalCode',
-                width: 80,
-                editable: true
-            },
-            {
-                label: 'City',
-                name: 'City',
-                width: 140,
-                editable: true
-            }
-        ],
+        colModel: makeColeRule(jqCols),
         sortname: 'CustomerID',
-        sortorder : 'asc',
-        loadonce: true,
         viewrecords: true,
         width: 780,
-        height: 200,
-        rowNum: 10,
-        pager: "#jqGridPager"
+        height: 400,
+        rowNum: 20,
+        viewrecords: true,
+        scroll: 1, // set the scroll property to 1 to enable paging with scrollbar - virtual loading of records
+        pager: "#jqGridPager",
     });
 
+    var template = $('#jqGridTemplate').html();
     $('#jqGrid').navGrid('#jqGridPager',
         // the buttons to appear on the toolbar of the grid
-        { edit: true, add: true, del: true, search: false, refresh: false, view: false, position: "left", cloneToTop: false },
+        { edit: true, add: true, del: true, search: false, position: "left"
+        , editData: {csrfmiddlewaretoken: '{{ csrf_token }}'}
+        , delfunc: function (rowids) {
+            console.log(rowids);
+        }
+     },
         // options for the Edit Dialog
         {
             editCaption: "The Edit Dialog",
-            template: template,
+            url : "{% url 'board:post' 1 %}",
+            recreateForm: true,
+            checkOnUpdate : true,
+            checkOnSubmit : true,
+            closeAfterEdit: true,
+            editData: {csrfmiddlewaretoken: '{{ csrf_token }}'},
             errorTextFormat: function (data) {
                 return 'Error: ' + data.responseText
             }
@@ -90,12 +78,14 @@ $(document).ready(function () {
         // options for the Add Dialog
         {
             template: template,
+            editData: {csrfmiddlewaretoken: '{{ csrf_token }}'},
             errorTextFormat: function (data) {
                 return 'Error: ' + data.responseText
             }
         },
         // options for the Delete Dailog
         {
+            editData: {csrfmiddlewaretoken: '{{ csrf_token }}'},
             errorTextFormat: function (data) {
                 return 'Error: ' + data.responseText
         }

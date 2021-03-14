@@ -5451,7 +5451,7 @@ a.close.disabled {
 .modal-dialog-centered.modal-dialog-scrollable::before {
   content: none;
 }
-
+/*
 .modal-content {
   position: relative;
   display: flex;
@@ -5464,7 +5464,7 @@ a.close.disabled {
   border-radius: 0.3rem;
   outline: 0;
 }
-
+*/
 .modal-backdrop {
   position: fixed;
   top: 0;

@@ -15,12 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from account import views
+from board import views
 
 app_name='board'
 
 urlpatterns = [
-    path('login', views.login, name='login'),
-    path('signup', views.signup, name='signup'),
-    path('logout', views.logout, name='logout'),
+    # path('create', views.post_create), #User에 관한 API를 처리하는 view로 Request를 넘김
+    path('', views.PostView.as_view(), name="list"),
+    path('<int:post_id>', views.PostView.as_view(), name="post") #User pk id가 전달되는 경우
+
+    #path('login', views.login, name='login'),
+    #path('signup', views.signup, name='signup'),
+    #path('logout', views.logout, name='logout'),
 ]

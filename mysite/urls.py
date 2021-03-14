@@ -1,5 +1,4 @@
 """mysite URL Configuration
-
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.1/topics/http/urls/
 Examples:
@@ -21,6 +20,6 @@ from board import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
-    path('account/', include('account.urls'), name='index'),
-    path('board/', include('board.urls'), name='index'),
+    path('account/', include('account.urls'), name='account'),
+    path('board/', include('board.urls'), name='board'),
 ]
