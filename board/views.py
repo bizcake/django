@@ -36,7 +36,7 @@ class PostView(APIView):
         if kwargs.get('post_id') is None:
             post_queryset = Post.objects.all() #모든 Post의 정보를 불러온다.
             post_queryset_serializer = PostSerializer(post_queryset, many=True)
-            return Response(post_queryset_serializer.data, status=status.HTTP_200_OK)
+            return Response({"data" : post_queryset_serializer.data}, status=status.HTTP_200_OK)
         # detail
         else:
             post_id = kwargs.get('post_id')
